@@ -34,3 +34,8 @@ def login():
 def logout():
 	logout_user()
 	return redirect(url_for('index'))
+
+@app.route('/<int:year>/<int:month>/<int:day>/<slug>')
+def fullpost(year,month,day,slug):
+	post = Post.query.filter(slug==slug).first()
+	return render_template('post.html', title='View Posts', post=post)

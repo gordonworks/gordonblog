@@ -2,6 +2,7 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login
 from flask_login import UserMixin
+import re
 
 @login.user_loader
 def load_user(id):
@@ -32,3 +33,11 @@ class Post(db.Model):
 
 	def __repr__(self):
 		return '<Post {}>'.format(self.body)
+
+	def returnSlug(self, delim=u'-'):
+		result = []
+		punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
+		for word in punct_re.split(self.title.lower()):
+			if word:
+				result.append(word)
+		return '-'.join(result)

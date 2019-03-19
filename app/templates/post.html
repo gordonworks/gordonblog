@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<p>{{ post.author.username }} says:<br></p>
+	{{ post.title }}
+	{{ post.body|safe}}
+{% endblock %}
