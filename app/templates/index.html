@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<h1>Hi, {{ current_user.username }}!</h1>
+	<h1>Welcome</h1>
 	{% for post in posts %}
 	<div>
-		<p>{{ post.author.username }} says:<br></p>
-		<a href="{{ url_for('fullpost',year=post.timestamp.year,month=post.timestamp.month,day=post.timestamp.day,slug=post.returnSlug()) }}">
+		<a href="{{ url_for('fullpost',year=post.timestamp.year,month=post.timestamp.month,day=post.timestamp.day,slug=post.slug) }}">
 		{{ post.title }}
-		</a>
+		</a><br>
+		{{ post.author.username }}
 		{{ post.body|safe|truncate(300, True) }}
 	</div>
 	{% endfor %}

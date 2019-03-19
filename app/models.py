@@ -3,6 +3,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login
 from flask_login import UserMixin
 import re
+from slugify import slugify
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy import func
 
 @login.user_loader
 def load_user(id):
@@ -27,17 +30,38 @@ class User(UserMixin,db.Model):
 class Post(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(64), index=True, unique=True)
+	#slug = db.Column(db.String(64))
 	body = db.Column(db.Text)
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 	def __repr__(self):
-		return '<Post {}>'.format(self.body)
-
-	def returnSlug(self, delim=u'-'):
+		return '<Post {}>'.format(self.title)
+	"""
+	@hybrid_property
+	def slug(self):
 		result = []
 		punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 		for word in punct_re.split(self.title.lower()):
 			if word:
 				result.append(word)
 		return '-'.join(result)
+	
+	@slug.expression
+	def slug(cls):
+		result = []
+		print(cls.title)
+		punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
+		for word in punct_re.split(cls.title):
+			if word:
+				result.append(word)
+		return func.lower('-'.join(result))
+	"""
+
+	@hybrid_property
+	def slug(self):
+		return self.title.replace(" ", "-").lower()
+
+	@slug.expression
+	def slug(cls):
+		return func.lower(func.replace(cls.title, " ", "-"))

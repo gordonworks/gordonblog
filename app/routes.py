@@ -37,5 +37,5 @@ def logout():
 
 @app.route('/<int:year>/<int:month>/<int:day>/<slug>')
 def fullpost(year,month,day,slug):
-	post = Post.query.filter(slug==slug).first()
+	post = Post.query.filter_by(slug=slug).first()
 	return render_template('post.html', title='View Posts', post=post)
