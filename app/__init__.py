@@ -6,7 +6,7 @@ from flask_login import LoginManager,current_user
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_ckeditor import CKEditor, CKEditorField
-
+from flask_bootstrap import Bootstrap
 
 
 app = Flask(__name__)
@@ -16,6 +16,7 @@ migrate = Migrate(app, db)
 login = LoginManager(app)
 login.login_view = 'login'
 ckeditor = CKEditor(app)
+bootstrap = Bootstrap(app)
 
 #app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
 class GordonBlogModelView(ModelView):
