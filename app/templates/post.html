@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename = 'bootstrap-tagsinput.js') }}"></script>
+	<input type="text" data-role="tagsinput"/>
 	<div class = "container">
 		<h2>{{ post.title }} <span class="badge badge-secondary">{{ post.timestamp }}</span></h2>
 		<p>{{ post.author.username }} says:<br></p>
