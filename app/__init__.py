@@ -39,6 +39,14 @@ admin = Admin(app, name='gordonblog', template_mode='bootstrap3')
 from app import routes, models
 from app.models import User,Post
 
+@app.context_processor
+def tags_dict():
+	tags = {}
+	for p in Post.query.all():
+		if p.tags:
+			for t in p.tags.split(','):
+				tags[t] = tags.get(t,0)+1
+	return tags
 
 admin.add_view(GordonBlogModelView(User, db.session))
 admin.add_view(GordonBlogModelView(Post, db.session))

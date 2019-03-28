@@ -2,9 +2,8 @@
 
 {% block content %}
 	
-	<div class = "container">
-		<div class = "row">
-			<div class="col-lg-6">
+	<div class = "container" style="display: flex;">
+			<div class="flex-item" style="flex-grow:1;padding:15px;">
 				{% for post in posts %}
 				<h3>
 					<a href="{{ url_for('fullpost',year=post.timestamp.year,month=post.timestamp.month,day=post.timestamp.day,slug=post.slug) }}">
@@ -31,11 +30,19 @@
 					</ul>
 				</nav>
 			</div>
-			<div class = "col-lg-6">
-				{% for post in posts %}
-				{{ post.body }}
-				{% endfor %}
-			</div>
+			<div class = "fixed" style="width:40%;padding-top: 25px;">
+				<div class="sidebar">
+					  <nav class="sidebar-nav">
+						<ul class="nav">
+						{% for k in tags %}
+						  <li class="nav-item">
+							<a class="nav-link" href="{{ url_for('taggedindex', tag=k) }}">
+							  <i class="nav-icon cui-speedometer"></i>{{ k }}:{{ tags[k] }}
+							</a>
+						  </li>
+						 {% endfor %}
+						</ul>
+					  </nav>
 		</div>
 	</div>
 

@@ -32,6 +32,7 @@ class Post(db.Model):
 	title = db.Column(db.String(64), index=True, unique=True)
 	#slug = db.Column(db.String(64))
 	body = db.Column(db.Text)
+	tags = db.Column(db.String(128))
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
