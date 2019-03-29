@@ -5,6 +5,7 @@ from flask_login import UserMixin
 import re
 from slugify import slugify
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy import func
 
 @login.user_loader
@@ -30,9 +31,11 @@ class User(UserMixin,db.Model):
 class Post(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	title = db.Column(db.String(64), index=True, unique=True)
-	#slug = db.Column(db.String(64))
 	body = db.Column(db.Text)
-	tags = db.Column(db.String(128))
+	
+	tag_objects = db.relationship("Tag", secondary="post_tag")
+	tags = association_proxy("tag_objects", "name",
+								creator=lambda name: Tag(name=name))
 	timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
@@ -66,3 +69,16 @@ class Post(db.Model):
 	@slug.expression
 	def slug(cls):
 		return func.lower(func.replace(cls.title, " ", "-"))
+
+
+class Tag(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	name = db.Column(db.Unicode, unique=True)
+
+	def __repr__(self):
+		return '<Tag {}>'.format(self.name)
+
+
+post_tag = db.Table("post_tag",
+	db.Column("post_id", db.ForeignKey("post.id"), primary_key=True),
+	db.Column("tag_id", db.ForeignKey("tag.id"), primary_key=True))

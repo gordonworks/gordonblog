@@ -33,11 +33,11 @@
 			<div class = "fixed" style="width:40%;padding-top: 25px;">
 				<div class="sidebar">
 					  <nav class="sidebar-nav">
-						<ul class="nav">
+						<ul class="nav" style="text-align: center;">
 						{% for k in tags %}
 						  <li class="nav-item">
-							<a class="nav-link" href="{{ url_for('taggedindex', tag=k) }}">
-							  <i class="nav-icon cui-speedometer"></i>{{ k }}:{{ tags[k] }}
+							<a class="nav-link" href="{{ url_for('taggedindex', tag=k.name.replace(' ','-')) }}">
+							  <i class="nav-icon cui-speedometer"></i>{{ k.name }}
 							</a>
 						  </li>
 						 {% endfor %}

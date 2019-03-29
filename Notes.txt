@@ -1,0 +1,8 @@
+Todo:
+X- Fix URL of tags to be a single word with dashes instead of spaces 
+- display tags with spaces on index instead of slugs
+- add tag JS form to admin view
+- Add about page for me
+- Add commenting systems(fork?)
+
+Bugs:
